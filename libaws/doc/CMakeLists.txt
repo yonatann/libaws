@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-INCLUDE(${CMAKE_SOURCE_DIR}/cmake_modules/CMakeUseDoxygen.cmake)
+INCLUDE(${CMAKE_SOURCE_DIR}/libaws/libaws/cmake_modules/CMakeUseDoxygen.cmake)
 
 #install the documentation
 IF(DOXYGEN_FOUND)

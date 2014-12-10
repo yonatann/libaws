@@ -13,17 +13,12 @@
 # limitations under the License.
 #
 PROJECT(libaws)
-SET(LIBCRYPTO "crypto")
-SET(LIBPTHREADS "pthread")
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-  INCLUDE(CMakeWindows.cmake)
-  SET(LIBCRYPTO "")
-  SET(LIBPTHREADS "${PTHREAD_LIB_PATHS}/pthreadVCE.lib")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # ctest support
 ENABLE_TESTING()
 INCLUDE(CTest)
+
+set(CMAKE_CXX_FLAGS "-fexceptions")
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 IF(COMMAND cmake_policy)
@@ -59,7 +54,7 @@ ENDIF(CURL_FOUND)
 FIND_PACKAGE(OpenSSL)
 IF(OPENSSL_FOUND)
   INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
-  SET(requiredlibs ${requiredlibs} ${OPENSSL_LIBRARIES} ${LIBCRYPTO}) # bugfix, because libcrypto is not found automatically
+  SET(requiredlibs ${requiredlibs} ${OPENSSL_LIBRARIES} crypto) # bugfix, because libcrypto is not found automatically
 ELSE(OPENSSL_FOUND)
   MESSAGE(FATAL_ERROR "Could not find the OpenSSL library and development files.")
 ENDIF(OPENSSL_FOUND)
@@ -74,16 +69,15 @@ ELSE(LIBXML2_FOUND)
 ENDIF(LIBXML2_FOUND)
 
 INCLUDE (CheckIncludeFiles)
-
-SET(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES} ${PTHREADLIB})
-
+SET(CMAKE_REQUIRED_LIBRARIES pthread)
 CHECK_INCLUDE_FILES(pthread.h LIBAWS_HAVE_PTHREAD_H)
-MESSAGE(STATUS "CMAKE REQUIRED INCLUDES:${CMAKE_REQUIRED_INCLUDES}")
-IF(NOT LIBAWS_HAVE_PTHREAD_H)
+
+if(NOT LIBAWS_HAVE_PTHREAD_H)
   MESSAGE(FATAL_ERROR "Could not find pthread development headers.")
-ELSE(NOT LIBAWS_HAVE_PTHREAD_H)
-  SET(requiredlibs ${requiredlibs} ${LIBPTHREADS})
+ELSEIF(NOT LIBAWS_HAVE_PTHREAD_H)
+    SET(requiredlibs ${requiredlibs} pthread) 
 ENDIF(NOT LIBAWS_HAVE_PTHREAD_H)
+
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 INCLUDE(CMakeConfiguration.txt)
@@ -91,7 +85,7 @@ INCLUDE(CMakeCompiler.txt)
 
 SET(LIBAWS_MAJOR_VERSION "0")
 SET(LIBAWS_MINOR_VERSION "9")
-SET(LIBAWS_PATCH_VERSION "3")
+SET(LIBAWS_PATCH_VERSION "2")
 
 # set the include path to the API headers
 # note that there also some generated headers files in the build directory
@@ -101,6 +95,7 @@ INCLUDE_DIRECTORIES(AFTER ${CMAKE_CURRENT_BINARY_DIR}/include)
 FIND_PACKAGE(Fuse)
 IF(FUSE_FOUND)
   MESSAGE(STATUS "Found Fuse. Building the s3fs module.")
+  INCLUDE_DIRECTORIES(${FUSE_INCLUDE_DIR})
 ELSE(FUSE_FOUND)
   MESSAGE(STATUS "Fuse not found. Can't build the s3fs module.")
 ENDIF(FUSE_FOUND)
@@ -126,7 +121,7 @@ ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/CMakeUninstall.cmake")
 
 # configure the cmake script to create a source package
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/CPackSourceConfig.cmake.in 
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/libaws/libaws/CPackSourceConfig.cmake.in
                ${CMAKE_BINARY_DIR}/CPackSourceConfig.cmake)
 MESSAGE(STATUS "configured ${CMAKE_SOURCE_DIR}/CPackSourceConfig.cmake.in --> ${CMAKE_BINARY_DIR}/CPackSourceConfig.cmake")
 
@@ -135,6 +130,6 @@ INCLUDE(CMakeExportBuildSettings)
 CMAKE_EXPORT_BUILD_SETTINGS(${CMAKE_BINARY_DIR}/LIBAWSBuildSettings.cmake)
 EXPORT_LIBRARY_DEPENDENCIES(${CMAKE_BINARY_DIR}/LIBAWSDepends.cmake)
 
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/LIBAWSConfig.cmake.in ${CMAKE_BINARY_DIR}/LIBAWSConfig.cmake)
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/libaws/libaws/LIBAWSConfig.cmake.in ${CMAKE_BINARY_DIR}/libaws-0.9.2/LIBAWSConfig.cmake)
 
 INCLUDE(CMakeCPack.cmake)

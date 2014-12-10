@@ -660,11 +660,15 @@ S3Connection::setBucketLogging(const std::string& aBucketName,
                                const std::string& aTargetBucket,
                                const std::string& aTargetPrefix)
 {
+    // TODO Add implementation
+    return NULL;
 }
 
 DisableBucketLoggingResponse*
 S3Connection::disableBucketLogging(const std::string& aBucketName)
 {
+    // TODO Add implementation
+    return NULL;
 }
 
 void

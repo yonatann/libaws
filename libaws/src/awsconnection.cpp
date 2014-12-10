@@ -109,7 +109,7 @@ AWSConnection::base64Encode(const char* aContent, size_t aContentSize,
   lBio = BIO_push(lB64, lBio);
 
   BIO_write(lBio, aContent, aContentSize);
-  BIO_flush(lBio);
+  (void) BIO_flush(lBio);
   aBase64EncodedStringLength = BIO_get_mem_data(lBio, &lEncodedString);
 
   // ensures null termination
@@ -134,7 +134,7 @@ AWSConnection::base64Encode(const unsigned char* aContent, size_t aContentSize,
   lBio = BIO_push(lB64, lBio);
 
   BIO_write(lBio, aContent, aContentSize);
-  BIO_flush(lBio);
+  (void) BIO_flush(lBio);
   aBase64EncodedStringLength = BIO_get_mem_data(lBio, &lEncodedString);
 
   // ensures null termination
