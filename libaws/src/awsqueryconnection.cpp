@@ -153,7 +153,7 @@ namespace aws {
     // can possibly be removed with a newer curl version
     // because it will always copy
     std::string lUrlString = lUrl.str();
-
+    //std::cout << lUrlString << std::endl << std::flush;
     LOG_INFO("Send request:" << lUrlString);
     
     
@@ -169,7 +169,7 @@ namespace aws {
     curl_easy_setopt ( theCurl, CURLOPT_WRITEDATA, ( void* ) ( aCallBack ) );
 
     // set a callback for retrieving all http header information
-//    curl_easy_setopt ( theCurl, CURLOPT_HEADERFUNCTION, AWSQueryConnection::getHeaderData );
+    // curl_easy_setopt ( theCurl, CURLOPT_HEADERFUNCTION, AWSQueryConnection::getHeaderData );
 
     //curl_easy_setopt ( theCurl, CURLOPT_VERBOSE, 1 );
 

@@ -31,6 +31,7 @@ namespace aws {
       class SendMessageResponse;
       class ReceiveMessageResponse;
       class DeleteMessageResponse;
+      class GetQueueAttributesResponse;
   } /* namespace sqs */
 
   template <class T>
@@ -148,6 +149,20 @@ namespace aws {
     protected:
       friend class SQSConnectionImpl;
       DeleteMessageResponse(sqs::DeleteMessageResponse*);
+  };
+
+  class GetQueueAttributesResponse : public SQSResponse<sqs::GetQueueAttributesResponse>
+  {
+    public:
+        ~GetQueueAttributesResponse() {}
+        std::string getAttribute(std::string attributeName);
+
+    protected:
+      friend class SQSConnectionImpl;
+      std::string m_attributeName;
+      std::string m_attributeValue;
+
+      GetQueueAttributesResponse(sqs::GetQueueAttributesResponse*);
   };
 
 } /* namespace aws */

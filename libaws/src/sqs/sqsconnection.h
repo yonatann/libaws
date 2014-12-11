@@ -33,6 +33,7 @@ namespace aws {
     class SendMessageResponse;
     class ReceiveMessageResponse;
     class DeleteMessageResponse;
+    class GetQueueAttributesResponse;
 
     class SQSConnection : public AWSQueryConnection
     {
@@ -78,6 +79,9 @@ namespace aws {
 
         virtual DeleteMessageResponse*
         deleteMessage( const std::string &aQueueUrl, const std::string &aReceiptHandle);
+
+        virtual GetQueueAttributesResponse*
+        getQueueAttributes( const std::string &aQueueUrl, const std::string &aReceiptHandle);
     };
 
   } /* namespace sqs  */

@@ -27,6 +27,7 @@ namespace aws {
     class SendMessageResponse;
     class ReceiveMessageResponse;
     class DeleteMessageResponse;
+    class GetQueueAttributesResponse;
 
     class QueueErrorHandler : public SimpleQueryCallBack{
       
@@ -35,14 +36,17 @@ namespace aws {
         enum States {
           ERROR_Code        = 1,
           ERROR_Message     = 2,
-          RequestId   			= 4,
-          HostId      			= 8,
-          QueueUrl    			= 16,
-          MessageId   			= 32,
+          RequestId   		= 4,
+          HostId      		= 8,
+          QueueUrl    		= 16,
+          MessageId   		= 32,
           MD5OfMessageBody 	= 64,
-          ReceiptHandle			= 128,
-          Body							= 256,
-          MetaData          = 512
+          ReceiptHandle		= 128,
+          Body				= 256,
+          MetaData          = 512,
+          Attribute         = 1024,
+          AttributeName     = 2048,
+          AttributeValue    = 4096
         };
 
         virtual void startElement ( const xmlChar *  localname, int nb_attributes, const xmlChar ** attributes );
@@ -130,6 +134,19 @@ namespace aws {
       protected:
         friend class SQSConnection;
         DeleteMessageResponse* theDeleteMessageResponse;
+
+      public:
+        virtual void responseStartElement ( const xmlChar *  localname, int nb_attributes, const xmlChar ** attributes );
+        virtual void responseCharacters ( const xmlChar *  value, int len );
+        virtual void responseEndElement ( const xmlChar *  localname );
+
+    };
+
+    class GetQueueAttributesHandler : public QueueErrorHandler
+    {
+      protected:
+        friend class SQSConnection;
+        GetQueueAttributesResponse* theGetQueueAttributesResponse;
 
       public:
         virtual void responseStartElement ( const xmlChar *  localname, int nb_attributes, const xmlChar ** attributes );

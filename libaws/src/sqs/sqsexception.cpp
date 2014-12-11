@@ -79,4 +79,9 @@ namespace aws {
 
     DeleteMessageException::~DeleteMessageException() throw() {}
 
+    GetQueueAttributesException::GetQueueAttributesException (const QueryErrorResponse& aError)
+        : SQSException (aError) {}
+
+    GetQueueAttributesException::~GetQueueAttributesException() throw() {}
+
   } /* namespace aws */

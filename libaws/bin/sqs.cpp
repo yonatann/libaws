@@ -132,6 +132,17 @@ bool deleteMessage (SQSConnectionPtr aSQS, std::string aQueueName, std::string a
   return true;
 }
 
+bool getQueueAttributes (SQSConnectionPtr aSQS, std::string aQueueName, std::string aAttributeName) {
+  try {
+      GetQueueAttributesResponsePtr lRes = aSQS->getQueueAttributes (aQueueName, aAttributeName);
+      std::cout << "get queue attributes was successful" << std::endl;
+    } catch (CreateBucketException &e) {
+      std::cerr << e.what() << std::endl;
+      return false;
+    }
+  return true;
+}
+
 bool deleteAllMessages (SQSConnectionPtr aSQS, std::string aQueueName) {
   try {
       bool lMessagesReceived = true;

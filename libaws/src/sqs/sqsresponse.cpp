@@ -17,7 +17,6 @@
 
 #include "sqs/sqsresponse.h"
 
-
 using namespace aws;
 
 namespace aws {
@@ -102,6 +101,14 @@ namespace aws {
     ReceiveMessageResponse::getNumberOfRetrievedMessages() const
     {
       return theMessages.size();
+    }
+
+    std::string
+    GetQueueAttributesResponse::getAttribute(std::string attributeName) {
+        if (m_attributeName == attributeName) {
+            return m_attributeValue;
+        }
+        return "";
     }
 
   } /* namespace sqs */

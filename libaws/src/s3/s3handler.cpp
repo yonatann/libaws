@@ -905,7 +905,8 @@ BucketLoggingStatusHandler::endElementNs(void * ctx,
     					         const xmlChar * URI)
 {
   S3CallBackWrapper*    lWrapper = static_cast<S3CallBackWrapper*>( ctx );
-  BucketLoggingStatusResponse* lRes     = static_cast<BucketLoggingStatusResponse*>( lWrapper->theResponse );
+  // TODO: do something with the return value
+  //BucketLoggingStatusResponse* lRes     = static_cast<BucketLoggingStatusResponse*>( lWrapper->theResponse );
   BucketLoggingStatusHandler*  lHandler = static_cast<BucketLoggingStatusHandler*>(lWrapper->theHandler);
 
   if (xmlStrEqual(localname, BAD_CAST "Code")) {
@@ -997,7 +998,8 @@ SetBucketLoggingHandler::endElementNs(void * ctx,
     					         const xmlChar * URI)
 {
   S3CallBackWrapper*    lWrapper = static_cast<S3CallBackWrapper*>( ctx );
-  SetBucketLoggingResponse* lRes     = static_cast<SetBucketLoggingResponse*>( lWrapper->theResponse );
+  // TODO: do something with the return value
+  //SetBucketLoggingResponse* lRes     = static_cast<SetBucketLoggingResponse*>( lWrapper->theResponse );
   SetBucketLoggingHandler*  lHandler = static_cast<SetBucketLoggingHandler*>(lWrapper->theHandler);
 
   if (xmlStrEqual(localname, BAD_CAST "Code")) {
@@ -1083,7 +1085,8 @@ DisableBucketLoggingHandler::endElementNs(void * ctx,
     					         const xmlChar * URI)
 {
   S3CallBackWrapper*    lWrapper = static_cast<S3CallBackWrapper*>( ctx );
-  DisableBucketLoggingResponse* lRes     = static_cast<DisableBucketLoggingResponse*>( lWrapper->theResponse );
+  // TODO: do something with the return value
+  //DisableBucketLoggingResponse* lRes     = static_cast<DisableBucketLoggingResponse*>( lWrapper->theResponse );
   DisableBucketLoggingHandler*  lHandler = static_cast<DisableBucketLoggingHandler*>(lWrapper->theHandler);
 
   if (xmlStrEqual(localname, BAD_CAST "Code")) {

@@ -156,5 +156,16 @@ namespace aws {
   DeleteMessageResponse::DeleteMessageResponse(sqs::DeleteMessageResponse* r)
     : SQSResponse<sqs::DeleteMessageResponse>(r) {}
 
+  /**
+   * GetQueueAttributesResponse
+   */
+  GetQueueAttributesResponse::GetQueueAttributesResponse(sqs::GetQueueAttributesResponse* r)
+    : SQSResponse<sqs::GetQueueAttributesResponse>(r) {}
+
+  std::string
+  GetQueueAttributesResponse::getAttribute(std::string attributeName) {
+      return theSQSResponse->getAttribute(attributeName);
+  }
+
 } /* namespace aws */
 

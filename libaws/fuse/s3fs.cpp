@@ -56,6 +56,7 @@
 #include <cassert>
 #include <stdio.h>
 #include <unistd.h>
+#include <stddef.h>
 
 #include <libaws/aws.h>
 #include "properties.h"
@@ -1387,7 +1388,7 @@ s3_open(const char *path,
 #endif // S3FS_USE_MEMCACHED
     if (result!=0){
       S3_LOG_DEBUG("setting the fileinfo filehandle to NULL");
-      fileinfo->fh = NULL;
+      fileinfo->fh = 0;
     }
     S3_LOG_DEBUG("returning with result " << result);
     return result;
@@ -1617,7 +1618,7 @@ s3_read(const char *path,
     unsigned int filelength = (unsigned int) fileHandle->size;
 
     int readsize = 0;
-    if(size>(filelength-offset)){
+    if((int)size > (filelength-offset)){
       readsize=filelength-offset;
     }else{
       readsize=size;

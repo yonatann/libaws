@@ -121,8 +121,8 @@ ADD_CUSTOM_TARGET(uninstall
     "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/CMakeUninstall.cmake")
 
 # configure the cmake script to create a source package
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/libaws/libaws/CPackSourceConfig.cmake.in
-               ${CMAKE_BINARY_DIR}/CPackSourceConfig.cmake)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/CPackSourceConfig.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/CPackSourceConfig.cmake)
 MESSAGE(STATUS "configured ${CMAKE_SOURCE_DIR}/CPackSourceConfig.cmake.in --> ${CMAKE_BINARY_DIR}/CPackSourceConfig.cmake")
 
 # export stuff
@@ -130,6 +130,6 @@ INCLUDE(CMakeExportBuildSettings)
 CMAKE_EXPORT_BUILD_SETTINGS(${CMAKE_BINARY_DIR}/LIBAWSBuildSettings.cmake)
 EXPORT_LIBRARY_DEPENDENCIES(${CMAKE_BINARY_DIR}/LIBAWSDepends.cmake)
 
-CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/libaws/libaws/LIBAWSConfig.cmake.in ${CMAKE_BINARY_DIR}/libaws-0.9.2/LIBAWSConfig.cmake)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/LIBAWSConfig.cmake.in ${CMAKE_CURRENT_SOURCE_DIR}/LIBAWSConfig.cmake)
 
 INCLUDE(CMakeCPack.cmake)

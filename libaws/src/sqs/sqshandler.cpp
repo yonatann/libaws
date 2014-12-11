@@ -280,5 +280,49 @@ namespace aws {
     {
     }
 
+    void
+    GetQueueAttributesHandler::responseStartElement ( const xmlChar * localname, int nb_attributes, const xmlChar ** attributes )
+    {
+        if ( xmlStrEqual ( localname, BAD_CAST "GetQueueAttributesResponse" ) ) {
+            //std::cout << "Start Element GetQueueAttributesResponse" << std::endl;
+            theGetQueueAttributesResponse = new GetQueueAttributesResponse();
+        } else if ( xmlStrEqual ( localname, BAD_CAST "Attribute" ) ) {
+            //std::cout << "Start Element Attribute" << std::endl;
+            setState ( Attribute );
+        } else if ( isSet (Attribute) && xmlStrEqual ( localname, BAD_CAST "Name" ) ) {
+            //std::cout << "Start Element Attribute Name" << std::endl;
+            theGetQueueAttributesResponse->m_attributeName = "";
+            setState ( AttributeName );
+        } else if ( isSet (Attribute) && xmlStrEqual ( localname, BAD_CAST "Value" ) ) {
+            //std::cout << "Start Element Attribute Value" << std::endl;
+            theGetQueueAttributesResponse->m_attributeValue = "";
+            setState ( AttributeValue );
+        }
+    }
+
+    void
+    GetQueueAttributesHandler::responseCharacters ( const xmlChar *  value, int len )
+    {
+        //std::string test((const char*)value, len);
+        //std::cout << "value:" << test << std::endl;
+        if ( isSet ( Attribute ) && isSet( AttributeName )) {
+            theGetQueueAttributesResponse->m_attributeName.append ( ( const char* ) value, len );
+        } else if ( isSet ( Attribute ) && isSet( AttributeValue )) {
+            theGetQueueAttributesResponse->m_attributeValue.append ( ( const char* ) value, len );
+        }
+    }
+
+    void
+    GetQueueAttributesHandler::responseEndElement ( const xmlChar * localname )
+    {
+      if ( xmlStrEqual ( localname, BAD_CAST "Attribute" ) ) {
+        unsetState ( Attribute );
+      } else if ( isSet( Attribute) && xmlStrEqual ( localname, BAD_CAST "Name" ) ) {
+        unsetState ( AttributeName );
+      } else if ( isSet( Attribute) && xmlStrEqual ( localname, BAD_CAST "Value" ) ) {
+        unsetState ( AttributeValue );
+      }
+    }
+
   } /* namespace sqs  */
 } /* namespace aws */

@@ -96,10 +96,13 @@ namespace aws { namespace sqs {
   	}
   	ListQueuesHandler lHandler;
     makeQueryRequest ( "ListQueues", &lMap, &lHandler );
+    std::cout << "ListQueues" << std::endl;
     if (lHandler.isSuccessful()) {
-      setCommons(lHandler, lHandler.theListQueuesResponse);
-      return lHandler.theListQueuesResponse;
+        std::cout << "ListQueues: success" << std::endl;
+        setCommons(lHandler, lHandler.theListQueuesResponse);
+        return lHandler.theListQueuesResponse;
     } else {
+        std::cout << "ListQueues: failure" << std::endl;
     	throw ListQueuesException( lHandler.getQueryErrorResponse() );
     }
   }
@@ -183,6 +186,26 @@ namespace aws { namespace sqs {
       return lHandler.theDeleteMessageResponse;
     } else {
     	throw DeleteMessageException( lHandler.getQueryErrorResponse() );
+    }
+  }
+
+  GetQueueAttributesResponse*
+  SQSConnection::getQueueAttributes(const std::string &aQueueUrl, const std::string &aAttributeName)
+  {
+    ParameterMap lMap;
+    // TODO: support multiple attributes
+    lMap.insert ( ParameterPair ( "AttributeName.1", aAttributeName ) );
+
+    GetQueueAttributesHandler lHandler;
+    //std::cout << "Sending GetQueueAttributes request" << std::endl << std::flush;
+    makeQueryRequest ( aQueueUrl, "GetQueueAttributes", &lMap, &lHandler );
+    //std::cout << "GetQueueAttributes request complete" << std::endl << std::flush;
+    if (lHandler.isSuccessful()) {
+        //std::cout << "GetQueueAttributes request successful" << std::endl << std::flush;
+        setCommons(lHandler, lHandler.theGetQueueAttributesResponse);
+        return lHandler.theGetQueueAttributesResponse;
+    } else {
+        throw GetQueueAttributesException( lHandler.getQueryErrorResponse() );
     }
   }
 

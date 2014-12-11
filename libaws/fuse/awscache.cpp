@@ -138,9 +138,9 @@ namespace aws {
 
   void AWSCache::delete_key(memcached_st* memc, const std::string& key)
   {
-    memcached_return rc;
-
-    rc=memcached_delete (memc, key.c_str(), strlen(key.c_str()),(time_t)0);
+    //memcached_return rc;
+    // TOOD: do something with the return value
+    memcached_delete (memc, key.c_str(), strlen(key.c_str()),(time_t)0);
 
 #ifndef NDEBUG
     if (rc == MEMCACHED_SUCCESS){
@@ -156,9 +156,9 @@ namespace aws {
  */
   void AWSCache::save_key(memcached_st* memc, const std::string& key, const std::string& value)
   {
-    memcached_return rc;
-
-    rc=memcached_set(memc, key.c_str(), strlen(key.c_str()),value.c_str(), strlen(value.c_str()),(time_t)0, (uint32_t)0);
+    //memcached_return rc;
+    // TODO: do something with the return value
+    memcached_set(memc, key.c_str(), strlen(key.c_str()),value.c_str(), strlen(value.c_str()),(time_t)0, (uint32_t)0);
 
 #ifndef NDEBUG
     if (rc == MEMCACHED_SUCCESS){
@@ -189,7 +189,7 @@ namespace aws {
  */
   void AWSCache::save_file(memcached_st* memc, const std::string& key, std::fstream* fstream, size_t size)
   {
-    memcached_return rc;
+    //memcached_return rc;
     std::auto_ptr<char> memblock(new char [size]);
 
     ASSERT(fstream);
@@ -198,10 +198,11 @@ namespace aws {
     fstream->read(memblock.get(),size);
     ASSERT((unsigned int)fstream->gcount()==size);
 
+    // TODO: do something with the return value
     if(size==0){
-      rc=memcached_set(memc, key.c_str(), strlen(key.c_str()), "", 0,(time_t)0, (uint32_t)0);
+      memcached_set(memc, key.c_str(), strlen(key.c_str()), "", 0,(time_t)0, (uint32_t)0);
     }else{
-      rc=memcached_set(memc, key.c_str(), strlen(key.c_str()), memblock.get(), size,(time_t)0, (uint32_t)0);
+      memcached_set(memc, key.c_str(), strlen(key.c_str()), memblock.get(), size,(time_t)0, (uint32_t)0);
     }
 
 #ifndef NDEBUG

@@ -175,6 +175,16 @@ namespace aws {
 		friend class sqs::SQSConnection;
 		
 	};
+
+    class GetQueueAttributesException : public SQSException
+    {
+    public:
+        virtual ~GetQueueAttributesException() throw();
+    GetQueueAttributesException(const QueryErrorResponse&);
+    private:
+        friend class sqs::SQSConnection;
+
+    };
 } /* namespace aws */
 
 #endif

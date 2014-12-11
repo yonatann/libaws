@@ -116,6 +116,19 @@ namespace aws {
         friend class DeleteMessageHandler;
     };
 
+    class GetQueueAttributesResponse : public QueryResponse
+    {
+        public:
+            std::string getAttribute(std::string attributeName);
+
+        protected:
+            friend class GetQueueAttributesHandler;
+            // TODO: support multiple attributes
+            std::string m_attributeName;
+            std::string m_attributeValue;
+    };
+
+
   } /* namespace sqs */
 } /* namespace aws */
 
